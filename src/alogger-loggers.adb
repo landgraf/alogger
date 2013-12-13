@@ -23,6 +23,9 @@ package body alogger.loggers is
             M.Set_Enclosing_Entity(Entity);
             Self.buffer.put(M);
         end;
+    exception
+        when others => 
+            Self.Crashed := True;
     end Log;
 
     not overriding

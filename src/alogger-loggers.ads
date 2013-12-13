@@ -56,6 +56,7 @@ private
             tagged limited record
         severity : severity_level := info; 
         worker : any_worker := new message_worker(buffer, writer); 
+        crashed : Boolean := False;
     end record;
     procedure Free_Ptr is new Ada.Unchecked_Deallocation(Name => Any_Logger, 
         Object => Logger'Class); 
