@@ -6,6 +6,10 @@ package alogger.internal.message_writers is
 
     not overriding
     procedure Write (Self : in out writer; Message : in out Any_Message) is abstract;
+
+    not overriding
+    procedure Init (Self : in out writer) is abstract;
+    -- Open files, prepare network connections etc.
 private
     type writer is abstract new Limited_Controlled with record
         Initialized : Boolean := False;

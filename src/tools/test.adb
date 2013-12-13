@@ -8,7 +8,6 @@ procedure test is
     --  level should be configurable
     --  On_Panic - procedure to do on log panic (IO issue for example);
 begin
-    -- logger.set_parameter("filename", "log/alogger.log"); 
     logger.debug("My message"); 
     logger.stop;
     --  gnat sources info could be added here 

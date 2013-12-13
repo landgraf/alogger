@@ -7,13 +7,12 @@ package body alogger.internal.message_workers is
     begin
         accept Start; 
         loop
-            select 
                 buffer.get(message);
+                exit when message = null;
                 writer.write(message);
-            or
-                delay 1.0;
-            end select;
         end loop;
     end message_worker;
+
+
 end alogger.internal.message_workers; 
 

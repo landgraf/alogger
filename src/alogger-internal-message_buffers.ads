@@ -12,9 +12,12 @@ package alogger.internal.message_buffers is
     not overriding
     procedure Get(Self : in out message_buffer; Item : out Any_Message);
 
+    not overriding
+    procedure Finish (Self : in out message_buffer);
+
     private
     Max : Natural := 2**10;
-    package message_fifos is new fifos(Any_Message, Max);
+    package message_fifos is new fifos(Any_Message, Max, null);
     subtype buffer is message_fifos.fifo;
     type buffer_access is access all buffer;
 

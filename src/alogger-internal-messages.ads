@@ -7,9 +7,13 @@ package alogger.internal.messages is
     not overriding
     procedure Set_Text(Self : in out Message; Text : in String); 
 
+    not overriding
+    function To_String(Self : in out Message) return String;
+
     private
     type message is new Limited_Controlled with record
         Text : Unbounded_String := Null_Unbounded_String; 
+        Severity : Unbounded_String := Null_Unbounded_String;
         T : Ada.Calendar.Time := Ada.Calendar.Clock; 
         File : Unbounded_String := Null_Unbounded_String; 
         Unit : Unbounded_String := Null_Unbounded_String; 

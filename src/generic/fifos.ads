@@ -29,6 +29,7 @@
 generic
     type Element_Type is private;
     Length : Natural;
+    Null_Element : Element_Type;
 package fifos is 
 
     type container is array (Natural range 1..Length) of Element_Type; 
@@ -36,10 +37,12 @@ package fifos is
     protected type FIFO is 
         procedure Put(E : in Element_Type);
         entry Get(E : out Element_Type);
+        procedure Finish;
         private
         handler : container; 
         First : Natural := 1;
         Last : Natural := 1; 
+        Finished : Boolean := False;
     end FIFO;
 
 end fifos; 

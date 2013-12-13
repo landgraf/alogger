@@ -34,11 +34,19 @@ package body fifos is
             handler(First) := E;
             First := (First mod Length) + 1;
         end Put; 
-        entry Get(E : out Element_Type) when First /= Last is 
+        entry Get(E : out Element_Type) when First /= Last or Finished is 
         begin
+            if Finished and then First = Last then
+                E := Null_Element; 
+                return;
+            end if;
             E := handler(Last); 
             Last := (last mod Length) + 1;
         end Get;
+        procedure Finish is 
+        begin
+            Finished := True;
+        end Finish;
     end FIFO;
 end fifos; 
 

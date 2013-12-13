@@ -37,6 +37,7 @@ package body alogger.loggers is
                 buffer => new message_buffer,
                 writer => new filewriter(new String'(Name & ".log")) 
                 );
+            result.worker.start;
             return result;
         end create;
     end constructors;
@@ -44,7 +45,7 @@ package body alogger.loggers is
     not overriding
     procedure Stop(Self : in out Logger) is 
     begin
-        Self.worker.Stop;
+        Self.buffer.finish;
     end Stop;
 end alogger.loggers; 
 

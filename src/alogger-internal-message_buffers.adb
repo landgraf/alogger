@@ -11,5 +11,11 @@ package body alogger.internal.message_buffers is
     begin
         Self.buf.Get(Item);
     end Get;
+
+    not overriding
+    procedure Finish (Self : in out message_buffer) is 
+    begin
+        Self.buf.finish;
+    end Finish;
 end alogger.internal.message_buffers; 
 
