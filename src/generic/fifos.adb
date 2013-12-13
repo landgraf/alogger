@@ -40,6 +40,9 @@ package body fifos is
                 E := Null_Element; 
                 return;
             end if;
+            if First = Last and then not Finished then
+                raise OVERFLOW_EXCEPTION;
+            end if;
             E := handler(Last); 
             Last := (last mod Length) + 1;
         end Get;

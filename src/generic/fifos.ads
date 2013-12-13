@@ -32,6 +32,7 @@ generic
     Null_Element : Element_Type;
 package fifos is 
 
+    OVERFLOW_EXCEPTION : exception;
     type container is array (Natural range 1..Length) of Element_Type; 
     type container_access is access all container; 
     protected type FIFO is 
