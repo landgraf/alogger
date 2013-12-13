@@ -1,4 +1,5 @@
 with Ada.Directories; -- use Ada.Directories;
+with Ada.Exceptions; use Ada.Exceptions;
 package body alogger.internal.message_writers.filewriters is 
 
     overriding
@@ -10,14 +11,16 @@ package body alogger.internal.message_writers.filewriters is
         end if;
         Put_Line(Self.File, Message.To_String);
     exception
-        when others =>
+        when Error: others =>
             Put_Line(Standard_Error, "Exception in writer"); 
+            Put_Line (Exception_Information(Error));
     end Write;
 
     overriding
     procedure Finalize(Self : in out filewriter) is 
     begin
         if Is_Open(Self.file) then
+            Flush(Self.File);
             Close(Self.File);
         end if;
     end Finalize;
@@ -26,10 +29,10 @@ package body alogger.internal.message_writers.filewriters is
     procedure Init(Self : in out filewriter) is 
     begin
         if not Ada.Directories.Exists(Self.Filename.all) then
-            Create(Self.File, Out_File, Self.Filename.all); 
+            Create(Self.File, Append_File, Self.Filename.all); 
         else
-            if Is_Open(Self.File) then
-                Open(Self.File, Out_File, Self.Filename.all);
+            if not Is_Open(Self.File) then
+                Open(Self.File, Append_File, Self.Filename.all);
             end if;
         end if;
     exception

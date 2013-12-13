@@ -37,7 +37,7 @@ package fifos is
     protected type FIFO is 
         procedure Put(E : in Element_Type);
         entry Get(E : out Element_Type);
-        procedure Finish;
+        entry Finish;
         private
         handler : container; 
         First : Natural := 1;

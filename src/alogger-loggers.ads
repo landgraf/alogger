@@ -4,6 +4,7 @@ with alogger.internal.message_workers;
 use alogger.internal.message_workers; 
 with alogger.internal.message_writers;
 use alogger.internal.message_writers;
+with Ada.Unchecked_Deallocation; 
 package alogger.loggers is 
     type severity_level is (info, debug, warning, error, fatal);
     type logger(buffer : any_buffer; writer : any_writer) is
@@ -12,13 +13,36 @@ package alogger.loggers is
 
     not overriding
     procedure Log(Self : in out logger;
-        Text : in String; Sev : in Severity_Level);
+        Text : in String; Sev : in Severity_Level;
+        File : in String := "null"; Line : in Natural := 0; 
+        Entity : in String := "null");
 
     not overriding
-    procedure Debug(Self : in out logger; Message : in String);
+    procedure Debug(Self : in out logger; Message : in String; 
+        File : in String := "null"; Line : in Natural := 0; 
+        Entity : in String := "null");
+    
+    not overriding
+    procedure Error(Self : in out logger; Message : in String;
+        File : in String := "null"; Line : in Natural := 0; 
+        Entity : in String := "null");
 
     not overriding
-    procedure Stop(Self : in out Logger);
+    procedure Info(Self : in out logger; Message : in String;
+        File : in String := "null"; Line : in Natural := 0; 
+        Entity : in String := "null");
+
+    not overriding
+    procedure Fatal(Self : in out logger; Message : in String;
+        File : in String := "null"; Line : in Natural := 0; 
+        Entity : in String := "null");
+
+    not overriding
+    procedure Warning(Self : in out logger; Message : in String;
+        File : in String := "null"; Line : in Natural := 0; 
+        Entity : in String := "null");
+
+    procedure Stop(Self : in out any_Logger);
 
     package constructors is 
         function Create(
@@ -33,6 +57,8 @@ private
         severity : severity_level := info; 
         worker : any_worker := new message_worker(buffer, writer); 
     end record;
+    procedure Free_Ptr is new Ada.Unchecked_Deallocation(Name => Any_Logger, 
+        Object => Logger'Class); 
 
 end alogger.loggers; 
 

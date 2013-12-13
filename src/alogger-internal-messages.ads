@@ -8,6 +8,18 @@ package alogger.internal.messages is
     procedure Set_Text(Self : in out Message; Text : in String); 
 
     not overriding
+    procedure Set_Line(Self : in out Message; Line : in Natural); 
+
+    not overriding
+    procedure Set_File(Self : in out Message; File : in String); 
+
+    not overriding
+    procedure Set_Enclosing_Entity(Self : in out Message; Entity : in String); 
+
+    not overriding
+    procedure Set_Severity(Self : in out Message; Severity : in String);
+
+    not overriding
     function To_String(Self : in out Message) return String;
 
     private
@@ -16,6 +28,7 @@ package alogger.internal.messages is
         Severity : Unbounded_String := Null_Unbounded_String;
         T : Ada.Calendar.Time := Ada.Calendar.Clock; 
         File : Unbounded_String := Null_Unbounded_String; 
+        Line : Natural := 0;
         Unit : Unbounded_String := Null_Unbounded_String; 
     end record;
 

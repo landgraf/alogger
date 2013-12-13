@@ -43,7 +43,7 @@ package body fifos is
             E := handler(Last); 
             Last := (last mod Length) + 1;
         end Get;
-        procedure Finish is 
+        entry Finish when First = Last is 
         begin
             Finished := True;
         end Finish;
