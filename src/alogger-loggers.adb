@@ -10,6 +10,10 @@ package body alogger.loggers is
         File : in String := "null"; Line : in Natural := 0; 
         Entity : in String := "null") is 
     begin
+        if Self.worker'Terminated or else Self.Crashed then
+            -- do not continue if worker is died
+            return;
+        end if;
         if Sev < Self.Severity then
             return;
         end if;
