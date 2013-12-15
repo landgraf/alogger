@@ -65,6 +65,5 @@ private
     end record;
     procedure Free_Ptr is new Ada.Unchecked_Deallocation(Name => Any_Logger, 
         Object => Logger'Class); 
-
 end alogger.loggers; 
 
