@@ -6,11 +6,17 @@ with alogger.internal.message_writers;
 use alogger.internal.message_writers;
 with Ada.Unchecked_Deallocation; 
 with alogger.configs;
+with System; use System;
 package alogger.loggers is 
     type severity_level is (info, debug, warning, error, fatal);
     type logger(buffer : any_buffer; writer : any_writer) is
         tagged limited private;
     type any_logger is access all logger'Class;
+
+
+    not overriding
+    function "="(Left : in logger; Right : in Logger) return Boolean
+        is (Left'Address = Right'Address); 
 
     not overriding
     procedure Log(Self : in out logger;
@@ -47,13 +53,6 @@ package alogger.loggers is
     procedure Set_Config(Self : in out logger; Name : in String);
 
     procedure Stop(Self : in out any_Logger);
-
-    package constructors is 
-        function Create(
-            Name : String;
-            Severity : severity_level
-            ) return any_logger;
-    end constructors;
 
 private
     type logger(buffer : any_buffer; writer : any_writer) is

@@ -1,5 +1,3 @@
-with alogger.internal.message_writers.filewriters;
-use alogger.internal.message_writers.filewriters;
 with alogger.internal.messages;
 use alogger.internal.messages;
 package body alogger.loggers is 
@@ -72,23 +70,6 @@ package body alogger.loggers is
         Self.Log(Message, Warning, File, line, entity);
     end Warning; 
 
-    package body constructors is 
-        function Create(
-            Name : String;
-            Severity : severity_level
-            ) return any_logger
-        is
-            result : any_logger;
-        begin
-            result := new logger(
-                buffer => new message_buffer,
-                writer => new filewriter(new String'(Name & ".log")) 
-                );
-            result.severity := Severity;
-            result.worker.start;
-            return result;
-        end create;
-    end constructors;
 
     procedure Stop(Self : in out Any_Logger) is 
     begin
