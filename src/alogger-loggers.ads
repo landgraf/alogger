@@ -5,6 +5,7 @@ use alogger.internal.message_workers;
 with alogger.internal.message_writers;
 use alogger.internal.message_writers;
 with Ada.Unchecked_Deallocation; 
+with alogger.configs;
 package alogger.loggers is 
     type severity_level is (info, debug, warning, error, fatal);
     type logger(buffer : any_buffer; writer : any_writer) is
@@ -42,6 +43,9 @@ package alogger.loggers is
         File : in String := "null"; Line : in Natural := 0; 
         Entity : in String := "null");
 
+    not overriding
+    procedure Set_Config(Self : in out logger; Name : in String);
+
     procedure Stop(Self : in out any_Logger);
 
     package constructors is 
@@ -57,6 +61,7 @@ private
         severity : severity_level := info; 
         worker : any_worker := new message_worker(buffer, writer); 
         crashed : Boolean := False;
+        config : alogger.configs.config;
     end record;
     procedure Free_Ptr is new Ada.Unchecked_Deallocation(Name => Any_Logger, 
         Object => Logger'Class); 

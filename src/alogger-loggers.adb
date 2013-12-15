@@ -96,5 +96,15 @@ package body alogger.loggers is
         Free_Ptr(Self);
     end Stop;
 
+    not overriding
+    procedure Set_Config(Self : in out logger; Name : in String) is 
+        Result : Unbounded_String := Null_Unbounded_String;
+    begin
+        self.config.open(name, result); 
+        if result /= Null_Unbounded_String then
+            raise PROGRAM_ERROR with To_String(Result);
+        end if;
+    end Set_Config;
+
 end alogger.loggers; 
 
