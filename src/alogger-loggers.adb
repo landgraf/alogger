@@ -1,5 +1,6 @@
 with alogger.internal.messages;
 use alogger.internal.messages;
+with Ada.Text_IO; use Ada.Text_IO;
 package body alogger.loggers is 
 
     not overriding
@@ -7,13 +8,40 @@ package body alogger.loggers is
         Text : in String; Sev : in Severity_Level;
         File : in String := "null"; Line : in Natural := 0; 
         Entity : in String := "null") is 
+
+        DELIM : constant Unbounded_String := To_Unbounded_String("::");
+        Keys : constant array (1..3) of Unbounded_String :=
+            (File & DELIM & Entity, DELIM & Entity, File & DELIM );
+        overridden : Boolean := False;
+        Severity : Severity_Level := Self.Severity;
     begin
         if Self.worker'Terminated or else Self.Crashed then
             -- do not continue if worker is died
             return;
         end if;
-        if Sev < Self.Severity then
-            return;
+        --  Check if severity overridden by configuration file(-s)
+        --  Check it only if log level is less then verbosity 
+        if Sev < Severity then
+            if Self.config.Is_Open then
+                for k of keys loop
+                    if self.config.has_key(to_string(k)) then
+                        try:
+                        declare
+                        begin
+                            severity :=
+                                Severity_Level'Value(self.config.get_value(to_string(k)));
+                            Overridden := True;
+                            exit when Sev > Severity;
+                        exception 
+                            when others => null;
+                        end try;
+                    end if;
+                end loop;
+                --  if overridden severity is too low -> exiting
+                if Sev < Severity then
+                    return;
+                end if;
+            end if; 
         end if;
         declare
             M : Any_Message := new message;

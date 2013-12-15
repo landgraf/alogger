@@ -20,10 +20,14 @@ package body alogger.configs is
                 return;
             end if;
             Load(handler, Filename);
+            Opened := True;
         exception
             when others => 
                 Result := To_Unbounded_String("Exception while loading config!");
         end Open;
+
+        function Is_Open return Boolean is (Opened);
+
     end config;
 end alogger.configs; 
 

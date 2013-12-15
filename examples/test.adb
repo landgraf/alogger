@@ -23,7 +23,6 @@ begin
     logger.error("Error message", File, Line, Enclosing_Entity);
     logger.info("Info message", File, Line, Enclosing_Entity);
     p1.ptest;
-    put_line("fuck");
     logger.fatal("Info message", File, Line, Enclosing_Entity);
     stop(logger);
     --  gnat sources info could be added here 
