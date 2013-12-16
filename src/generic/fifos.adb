@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
---                              Adevlogs Log parser                         --
+--                              Ada Logging framework                       --
 --                                                                          --
 --        Copyright (C) 2013, Pavel Zhukov <pavel at zhukoff dot net>       --
 --                                                                          --
@@ -25,6 +25,7 @@
 --  covered by the GNU General Public License. This exception does not      --
 --  however invalidate any other reasons why the executable file  might be  --
 --  covered by the  GNU Public License.                                     --
+------------------------------------------------------------------------------
 ------------------------------------------------------------------------------
 package body fifos is 
 
