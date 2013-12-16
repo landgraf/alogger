@@ -45,7 +45,6 @@ install:
 	install -d -m 0755 ${DESTDIR}/${includedir}/${PROJECT}
 	install -d -m 0755 ${DESTDIR}/${gprdir}
 	install -d -m 0755 ${DESTDIR}/${bindir}
-	cp -r bin/* ${DESTDIR}/${bindir}
 	cp -r lib/*.ali ${DESTDIR}/${libdir}/${PROJECT}
 	cp -r lib/*.so* ${DESTDIR}/${libdir}/${PROJECT}
 	cp -r src/* ${DESTDIR}/${includedir}/${PROJECT}
@@ -59,7 +58,7 @@ clean_rpm:
 
 rpm: clean_rpm
 	git archive --prefix=${NAME}-${VERSION}/ -o ${HOME}/rpmbuild/SOURCES/${NAME}-${VERSION}.tar.gz HEAD
-	sed "s/@RELEASE@/`date +%s`/;s/@DEBUG@/${DEBUG}/" packaging/${NAME}.spec > packaging/${NAME}-build.spec
+	sed "s/@RELEASE@/`date +%s`/;s/@DEBUG@/${DEBUG}/" packaging/Fedora.spec > packaging/${NAME}-build.spec
 	rpmbuild -ba packaging/${NAME}-build.spec
 	rm -f packaging/${NAME}-build.spec
 
