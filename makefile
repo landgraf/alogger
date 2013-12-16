@@ -45,10 +45,13 @@ install:
 	install -d -m 0755 ${DESTDIR}/${includedir}/${PROJECT}
 	install -d -m 0755 ${DESTDIR}/${gprdir}
 	install -d -m 0755 ${DESTDIR}/${bindir}
+	install -d -m 0755 ${DESTDIR}/${prefix}/share/doc/${PROJECT}/examples
 	cp -r lib/*.ali ${DESTDIR}/${libdir}/${PROJECT}
 	cp -r lib/*.so* ${DESTDIR}/${libdir}/${PROJECT}
 	cp -r src/* ${DESTDIR}/${includedir}/${PROJECT}
 	cp -r install/${PROJECT}.gpr ${DESTDIR}/${gprdir}
+	cp -r examples ${DESTDIR}/${prefix}/share/doc/${PROJECT}/examples
+
 	cd ${DESTDIR}/${libdir} && ln -s ${PROJECT}/*.so* .
 
 clean_rpm:
