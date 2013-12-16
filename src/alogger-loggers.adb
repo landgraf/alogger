@@ -103,6 +103,22 @@ package body alogger.loggers is
     end info; 
 
     not overriding
+    procedure off(Self : in out logger; Message : in String;
+        File : in String := "null"; Line : in Natural := 0; 
+        Entity : in String := "null") is
+    begin
+        Self.log(message, off, file, line, entity);
+    end off;
+
+    not overriding
+    procedure trace(Self : in out logger; Message : in String;
+        File : in String := "null"; Line : in Natural := 0; 
+        Entity : in String := "null") is 
+    begin
+        self.log(message, trace, file, line, entity); 
+    end trace;
+
+    not overriding
     procedure Fatal(Self : in out logger; Message : in String;
         File : in String := "null"; Line : in Natural := 0; 
         Entity : in String := "null") is

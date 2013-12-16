@@ -36,7 +36,25 @@ with Ada.Unchecked_Deallocation;
 with alogger.configs;
 with System; use System;
 package alogger.loggers is 
-    type severity_level is (info, debug, warning, error, fatal);
+    type severity_level is (trace, debug, info, warning, error, fatal, off);
+    --  OFF     The highest possible rank and is intended 
+    --      to turn off logging.
+    --  FATAL   Severe errors that cause premature termination. 
+    --      Expect these to be immediately visible on a status console.
+    --  ERROR   Other runtime errors or unexpected conditions. 
+    --      Expect these to be immediately visible on a status console.
+    --  WARN    Use of deprecated APIs, poor use of API, 'almost' errors, 
+    --      other runtime situations that are undesirable or unexpected, 
+    --      but not necessarily "wrong". 
+    --      Expect these to be immediately visible on a status console.
+    --  INFO    Interesting runtime events (startup/shutdown). 
+    --      Expect these to be immediately visible on a console,
+    --      so be conservative and keep to a minimum.
+    --  DEBUG   Detailed information on the flow through the system. 
+    --      Expect these to be written to logs only.
+    --  TRACE   Most detailed information. 
+    --      Expect these to be written to logs only.
+
     type logger(buffer : any_buffer; writer : any_writer) is
         tagged limited private;
     type any_logger is access all logger'Class;
@@ -74,6 +92,16 @@ package alogger.loggers is
 
     not overriding
     procedure Warning(Self : in out logger; Message : in String;
+        File : in String := "null"; Line : in Natural := 0; 
+        Entity : in String := "null");
+
+    not overriding
+    procedure off(Self : in out logger; Message : in String;
+        File : in String := "null"; Line : in Natural := 0; 
+        Entity : in String := "null");
+
+    not overriding
+    procedure trace(Self : in out logger; Message : in String;
         File : in String := "null"; Line : in Natural := 0; 
         Entity : in String := "null");
 
