@@ -34,6 +34,7 @@ with alogger.internal.message_writers;
 use alogger.internal.message_writers;
 with Ada.Unchecked_Deallocation; 
 with alogger.logger_facilities; use alogger.logger_facilities;
+with alogger.logger_facilities_sets; use alogger.logger_facilities_sets;
 with alogger.configs;
 with System; use System;
 package alogger.loggers is 
@@ -56,14 +57,15 @@ package alogger.loggers is
     --  TRACE   Most detailed information. 
     --      Expect these to be written to logs only.
 
-    type logger(buffer : any_buffer; writer : any_writer) is
-        tagged limited private;
+    type logger(buffer : any_buffer := new message_buffer;
+        facilities : facilities_set_access := new facilities_set) is
+            tagged limited private;
     type any_logger is access all logger'Class;
 
 
     not overriding
     procedure Attach_Facility (Self : in out logger;
-        Facility : in out Logger_Facility'Class);
+        Facility : in out Any_Logger_Facility);
 
     not overriding
     function "="(Left : in logger; Right : in Logger) return Boolean
@@ -116,10 +118,11 @@ package alogger.loggers is
     procedure Stop(Self : in out any_Logger);
 
 private
-    type logger(buffer : any_buffer; writer : any_writer) is
+    type logger(buffer : any_buffer := new message_buffer;
+        facilities : facilities_set_access := new facilities_set) is
             tagged limited record
         severity : severity_level := info; 
-        worker : any_worker := new message_worker(buffer, writer); 
+        worker : any_worker := new message_worker(buffer, facilities); 
         crashed : Boolean := False;
         config : alogger.configs.config;
     end record;

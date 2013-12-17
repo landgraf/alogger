@@ -161,7 +161,7 @@ package body alogger.loggers is
 
     not overriding
     procedure Attach_Facility (Self : in out logger;
-        Facility : in out Logger_Facility'Class) is 
+        Facility : in out Any_Logger_Facility) is 
     begin
         Self.Facilities.attach(facility);
     end Attach_Facility;

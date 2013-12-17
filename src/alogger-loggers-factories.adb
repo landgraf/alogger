@@ -26,9 +26,8 @@
 --  however invalidate any other reasons why the executable file  might be  --
 --  covered by the  GNU Public License.                                     --
 ------------------------------------------------------------------------------
-with alogger.internal.message_writers.filewriters;
-use alogger.internal.message_writers.filewriters;
 with Ada.Text_IO; use Ada.Text_IO;
+with alogger.logger_facilities_sets; use alogger.logger_facilities_sets;
 package body alogger.loggers.factories is 
     procedure Init_Logger(Name : in String; Severity : in Severity_Level) 
     is
@@ -36,7 +35,7 @@ package body alogger.loggers.factories is
     begin
         result := new logger(
             buffer => new message_buffer,
-            writer => new filewriter(new String'(Name & ".log")) 
+            facilities => new facilities_set
             );
         result.severity := Severity;
         result.worker.start;

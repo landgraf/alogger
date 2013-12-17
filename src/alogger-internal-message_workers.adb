@@ -37,7 +37,8 @@ package body alogger.internal.message_workers is
         loop
                 buffer.get(message);
                 exit when message = null;
-                writer.write(message);
+                -- FIXME broadcast here
+                facilities.write(message);
         end loop;
     end message_worker;
 

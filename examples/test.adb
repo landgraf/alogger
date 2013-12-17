@@ -1,6 +1,7 @@
-with Alogger.loggers; 
-use alogger.loggers;
+with Alogger.loggers; use alogger.loggers;
 with alogger.loggers.factories;
+with Alogger.Logger_Facilities.Filewriters; 
+use Alogger.Logger_Facilities.Filewriters;
 with Gnat.Source_Info; use Gnat.Source_Info; 
 with Ada.Command_Line;
 with Ada.Directories;
@@ -17,7 +18,12 @@ procedure test is
     --  On_Panic - procedure to do on log panic (IO issue for example);
 begin
     alogger.loggers.factories.init_logger("test", error);
-    alogger.attach_facility(new filewriter("/tmp/test.log"));
+    declare
+        Fac : Alogger.Logger_Facilities.any_logger_facility :=
+            new  filewriter(new String'("/tmp/test.log"));
+    begin
+        logger.attach_facility(Fac);
+    end;
     logger := alogger.loggers.factories.get_logger("test");
     logger.set_config("conf/test.conf");
     logger.debug("My message", File, Line, Enclosing_Entity); 

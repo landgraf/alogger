@@ -28,10 +28,10 @@
 ------------------------------------------------------------------------------
 with Ada.Directories; -- use Ada.Directories;
 with Ada.Exceptions; use Ada.Exceptions;
-package body alogger.internal.message_writers.filewriters is 
+package body alogger.logger_facilities.filewriters is 
 
     overriding
-    procedure Write (Self : in out filewriter; Message : in out Any_Message)
+    procedure Write (Self : in out filewriter; Message : in Any_Message)
     is
     begin
         if not Self.Initialized or else Is_Open(Self.File) then
@@ -68,5 +68,5 @@ package body alogger.internal.message_writers.filewriters is
             Put_Line(Standard_Error, "Exception in writer"); 
             raise;
     end Init;
-end alogger.internal.message_writers.filewriters; 
+end  alogger.logger_facilities.filewriters;
 
