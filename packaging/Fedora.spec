@@ -1,6 +1,6 @@
 Name:		alogger
 Version:	0.1
-Release:	1%{?dist}
+Release:	3.@RELEASE@%{?dist}
 Summary:	Logging framework for application written in Ada
 
 Group:		Development/Libraries
@@ -19,7 +19,7 @@ BuildRequires:  fedora-gnat-project-common > 3
 Summary: 	Devel package for %{name}
 License:        GPLv3
 Group:          Development/Libraries
-Requires:	%{name}-%{version}
+Requires:   %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 %{summary}
@@ -45,23 +45,28 @@ libdir=%{_libdir}
 
 
 %files
-%doc
+%doc COPYING
 %dir %{_libdir}/%{name}
 %{_libdir}/lib%{name}*.so.%{version}
 %{_libdir}/%{name}/lib%{name}*.so.%{version}
 
 %files devel
+%doc README.md
 %{_libdir}/lib%{name}*.so.?
 %{_libdir}/lib%{name}*.so
 %{_libdir}/%{name}/lib%{name}*.so.?
 %{_libdir}/%{name}/lib%{name}*.so
 %{_libdir}/%{name}/*.ali
 %{_includedir}/%{name}
+%{_docdir}/%{name}
 %{_GNAT_project_dir}/%{name}*
 %doc
 
 
 %changelog
+* Mon Dec 16 2013 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-3
+- Fix requires
+
 * Mon Dec 16 2013 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-1
 - Initial build
 
