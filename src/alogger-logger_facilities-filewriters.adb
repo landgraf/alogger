@@ -56,11 +56,11 @@ package body alogger.logger_facilities.filewriters is
     overriding
     procedure Init(Self : in out filewriter) is 
     begin
-        if not Ada.Directories.Exists(Self.Filename.all) then
-            Create(Self.File, Append_File, Self.Filename.all); 
+        if not Ada.Directories.Exists(to_String(Self.Filename)) then
+            Create(Self.File, Append_File, To_String(Self.Filename)); 
         else
             if not Is_Open(Self.File) then
-                Open(Self.File, Append_File, Self.Filename.all);
+                Open(Self.File, Append_File, To_String(Self.Filename));
             end if;
         end if;
     exception
@@ -68,5 +68,15 @@ package body alogger.logger_facilities.filewriters is
             Put_Line(Standard_Error, "Exception in writer"); 
             raise;
     end Init;
+
+    package body Constructors is
+        function Create(Filename : in String) return filewriter_access
+        is
+            result : filewriter_access := new filewriter;
+        begin
+            result.filename := To_Unbounded_String(Filename); 
+            return result;
+        end Create;
+    end Constructors; 
 end  alogger.logger_facilities.filewriters;
 

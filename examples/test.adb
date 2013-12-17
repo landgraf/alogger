@@ -11,7 +11,11 @@ begin
     logger := alogger.loggers.factories.get_logger("test");
     declare
         Fac : Alogger.Logger_Facilities.any_logger_facility :=
-            new  filewriter(new String'("/tmp/test.log"));
+            Alogger.Logger_Facilities.any_logger_facility(
+                Alogger.Logger_Facilities.Filewriters.Constructors.Create
+                    (
+                        "/tmp/test.log"
+                    ));
     begin
         logger.attach_facility(Fac);
     end;
@@ -22,6 +26,5 @@ begin
     p1.ptest;
     logger.fatal("Info message", File, Line, Enclosing_Entity);
     stop(logger);
-    --  gnat sources info could be added here 
 end test; 
 
