@@ -159,5 +159,11 @@ package body alogger.loggers is
         end if;
     end Set_Config;
 
+    not overriding
+    procedure Attach_Facility (Self : in out logger;
+        Facility : in out Logger_Facility'Class) is 
+    begin
+        Self.Facilities.attach(facility);
+    end Attach_Facility;
 end alogger.loggers; 
 

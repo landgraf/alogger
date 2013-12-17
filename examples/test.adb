@@ -17,6 +17,7 @@ procedure test is
     --  On_Panic - procedure to do on log panic (IO issue for example);
 begin
     alogger.loggers.factories.init_logger("test", error);
+    alogger.attach_facility(new filewriter("/tmp/test.log"));
     logger := alogger.loggers.factories.get_logger("test");
     logger.set_config("conf/test.conf");
     logger.debug("My message", File, Line, Enclosing_Entity); 

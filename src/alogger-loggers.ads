@@ -33,6 +33,7 @@ use alogger.internal.message_workers;
 with alogger.internal.message_writers;
 use alogger.internal.message_writers;
 with Ada.Unchecked_Deallocation; 
+with alogger.logger_facilities; use alogger.logger_facilities;
 with alogger.configs;
 with System; use System;
 package alogger.loggers is 
@@ -59,6 +60,10 @@ package alogger.loggers is
         tagged limited private;
     type any_logger is access all logger'Class;
 
+
+    not overriding
+    procedure Attach_Facility (Self : in out logger;
+        Facility : in out Logger_Facility'Class);
 
     not overriding
     function "="(Left : in logger; Right : in Logger) return Boolean
