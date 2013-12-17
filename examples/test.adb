@@ -7,24 +7,23 @@ with Ada.Command_Line;
 with Ada.Directories;
 with p1;
 with Ada.Text_IO; use ada.text_IO;
+with Ada.Exceptions; 
 procedure test is 
     use alogger;
+    use Alogger.Logger_Facilities;
     logger : alogger.loggers.any_logger; 
-    -- logger : alogger.loggers.any_logger :=
-    --     alogger.loggers.factories.init_logger(
-    --         Name => Ada.Directories.Simple_Name(Ada.Command_Line.Command_name), 
-    --         severity => error); 
-    --  level should be configurable
-    --  On_Panic - procedure to do on log panic (IO issue for example);
 begin
     alogger.loggers.factories.init_logger("test", error);
+    logger := alogger.loggers.factories.get_logger("test");
     declare
         Fac : Alogger.Logger_Facilities.any_logger_facility :=
             new  filewriter(new String'("/tmp/test.log"));
     begin
         logger.attach_facility(Fac);
+    exception
+        when E: others => 
+            Put_Line(Ada.Exceptions.Exception_Message(E));
     end;
-    logger := alogger.loggers.factories.get_logger("test");
     logger.set_config("conf/test.conf");
     logger.debug("My message", File, Line, Enclosing_Entity); 
     logger.error("Error message", File, Line, Enclosing_Entity);
