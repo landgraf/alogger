@@ -1,16 +1,10 @@
-with Alogger.loggers; use alogger.loggers;
 with alogger.loggers.factories;
 with Alogger.Logger_Facilities.Filewriters; 
 use Alogger.Logger_Facilities.Filewriters;
 with Gnat.Source_Info; use Gnat.Source_Info; 
-with Ada.Command_Line;
-with Ada.Directories;
 with p1;
-with Ada.Text_IO; use ada.text_IO;
-with Ada.Exceptions; 
 procedure test is 
-    use alogger;
-    use Alogger.Logger_Facilities;
+    use alogger.loggers;
     logger : alogger.loggers.any_logger; 
 begin
     alogger.loggers.factories.init_logger("test", error);
@@ -20,9 +14,6 @@ begin
             new  filewriter(new String'("/tmp/test.log"));
     begin
         logger.attach_facility(Fac);
-    exception
-        when E: others => 
-            Put_Line(Ada.Exceptions.Exception_Message(E));
     end;
     logger.set_config("conf/test.conf");
     logger.debug("My message", File, Line, Enclosing_Entity); 
