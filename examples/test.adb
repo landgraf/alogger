@@ -1,6 +1,6 @@
 with alogger.loggers.factories;
 with Alogger.Logger_Facilities.Filewriters; 
-use Alogger.Logger_Facilities.Filewriters;
+with Alogger.Logger_Facilities.Journaldwriters;
 with Gnat.Source_Info; use Gnat.Source_Info; 
 with p1;
 procedure test is 
@@ -16,6 +16,9 @@ begin
                     (
                         "/tmp/test.log"
                     ));
+        Journald : Alogger.Logger_Facilities.any_logger_facility := 
+            Alogger.Logger_Facilities.any_logger_facility(
+                Alogger.Logger_Facilities.Journaldwriters.Constructors.Create);
     begin
         logger.attach_facility(Fac);
     end;
